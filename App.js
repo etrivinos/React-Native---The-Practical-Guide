@@ -4,6 +4,8 @@ import { StyleSheet, View } from 'react-native';
 import PlaceInput from './src/components/PlaceInput/PlaceInput';
 import PlaceList from './src/components/PlaceList/PlaceList';
 
+import placeImage from './src/assets/beautiful-place.jpg';
+
 export default class App extends React.Component {
   state = {
     places: []
@@ -13,7 +15,11 @@ export default class App extends React.Component {
     if(placeName) {
       this.setState(prevState => {
         return {
-          places: prevState.places.concat({key: prevState.places.length, value: placeName})
+          places: prevState.places.concat({
+            key: prevState.places.length, 
+            value: placeName,
+            image: placeImage
+          })
         };
       });
     }
