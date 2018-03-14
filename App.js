@@ -19,11 +19,21 @@ export default class App extends React.Component {
     }
   }
 
+  onItemDeletedHandler = (i) => {
+    this.setState(prevState => {
+      prevState.places.splice(i, 1);
+      
+      return {
+        places: prevState.places
+      };
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <PlaceInput addPlaceName={this.addPlaceName} />
-        <PlaceList places={this.state.places} />
+        <PlaceList places={this.state.places} onItemDeleted={this.onItemDeletedHandler} />
       </View>
     );
   }
