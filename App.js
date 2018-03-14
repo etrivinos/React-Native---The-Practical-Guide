@@ -13,7 +13,7 @@ export default class App extends React.Component {
     if(placeName) {
       this.setState(prevState => {
         return {
-          places: prevState.places.concat(placeName)
+          places: prevState.places.concat({key: prevState.places.length, value: placeName})
         };
       });
     }
