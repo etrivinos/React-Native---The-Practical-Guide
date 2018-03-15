@@ -8,7 +8,7 @@ const placeList = (props) => {
     <ListItem 
     	key={i} 
     	placeName={place} 
-    	onItemPressed={() => { props.onItemDeleted(i)} } 
+    	onItemPressed={() => { props.onItemSelected(i)} } 
     	/>
   ));
 
@@ -18,9 +18,9 @@ const placeList = (props) => {
       data={props.places}
       renderItem={(info) => (
         <ListItem 
-          placeName={info.item.key + ' - ' + info.item.value} 
+          placeName={info.item.key + ' - ' + info.item.name} 
           placeImage={info.item.image}
-          onItemPressed={() => props.onItemDeleted(info.item.key) }  />
+          onItemPressed={() => props.onItemSelected(info.item.key) }  />
       )} />
 	)
 }
