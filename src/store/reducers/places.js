@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
 		case ADD_PLACE:
 			return {
 				...state,
-				places: prevState.places.concat({
+				places: state.places.concat({
 			            key: state.places.length, 
 			            name: action.placeName,
 			            image: {
