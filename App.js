@@ -60,12 +60,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (disptach) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onAddPlace:       (placeName) => disptach(addPlace(placeName)),
-    onDeletePlace:    ()          => disptach(deletePlace()),
-    onSelectPlace:    (placeKey)  => disptach(selectPlace(placeKey)),
-    onDeselectPlace:  ()          => disptach(selectPlace())
+    onAddPlace:       (placeName) => dispatch(addPlace(placeName)),
+    onDeletePlace:    ()          => dispatch(deletePlace()),
+    onSelectPlace:    (placeKey)  => dispatch(selectPlace(placeKey)),
+    onDeselectPlace:  ()          => dispatch(selectPlace())
   };
 }
 
