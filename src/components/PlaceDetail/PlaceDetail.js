@@ -12,7 +12,7 @@ const placeDetail = (props) => {
 				<Image source={props.selectedPlace.image}  style={styles.placeImage} />
 				<Text style={styles.placeText}>{props.selectedPlace.name}</Text>
 			</View>
-		);
+		); 
 	}
 	return (
 		<Modal visible={Boolean(props.selectedPlace)}
@@ -23,7 +23,7 @@ const placeDetail = (props) => {
 				{modalContent}
 
 				<View>
-					<View 
+					<View    
 						style={styles.deleteButton}
 						onPress={props.onItemDeleted} >
 							<TouchableOpacity>

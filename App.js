@@ -1,72 +1,15 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import AuthScreen from './src/screens/Auth/Auth';
 
-import { connect } from 'react-redux';
-import { addPlace, deletePlace, selectPlace, deselectPlace } from './src/store/actions/index';
+// Register Screens
+Navigation.registerComponent('rn-course.AuthScreen', () => AuthScreen);
 
-import PlaceInput from './src/components/PlaceInput/PlaceInput';
-import PlaceList from './src/components/PlaceList/PlaceList';
-import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
-
-class App extends React.Component {
-
-  addPlaceName = (placeName) => {
-    if(placeName) {
-      this.props.onAddPlace(placeName);
-    }
-  }
-
-  onItemDeletedHandler = () => {
-    this.props.onDeletePlace();
-  }
-
-  onItemSelectedHandler = (placeKey) => {
-    this.props.onSelectPlace(placeKey);
-  }
-
-  onModalClosedHandler = () => {
-    this.props.onDeselectPlace();
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-
-        <PlaceInput addPlaceName={this.addPlaceName} />
-        <PlaceList places={this.props.places} onItemSelected={this.onItemSelectedHandler} />
-
-        <PlaceDetail selectedPlace={this.props.selectedPlace} 
-          onItemDeleted={this.onItemDeletedHandler}
-          onModalClosed={this.onModalClosedHandler} />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    padding: 26
-  }
+// Start a App
+Navigation.startSingleScreenApp({
+   screen: {
+    screen: 'rn-course.AuthScreen', // unique ID registered with Navigation.registerScreen
+    title: 'Login',                 // title of the screen as appears in the nav bar (optional)
+    navigatorStyle: {},             // override the navigator style for the screen, see "Styling the navigator" below (optional)
+    navigatorButtons: {}            // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
+  },
 });
-
-const mapStateToProps = (state) => {
-  return {
-    places: state.places.places,
-    selectedPlace: state.places.selectedPlace
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onAddPlace:       (placeName) => dispatch(addPlace(placeName)),
-    onDeletePlace:    ()          => dispatch(deletePlace()),
-    onSelectPlace:    (placeKey)  => dispatch(selectPlace(placeKey)),
-    onDeselectPlace:  ()          => dispatch(selectPlace())
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
