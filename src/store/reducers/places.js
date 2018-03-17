@@ -19,11 +19,11 @@ const reducer = (state = initialState, action) => {
 			};
 
 		case DELETE_PLACE: 
-			// state.places.splice(state.selectedPlace.key, 1);
-      
       return {
       	...state,
-        places: state.places
+        places: state.places.filter(place => {
+        	return place.key !==  action.placeKey;
+        })
       };
 
 		default:
