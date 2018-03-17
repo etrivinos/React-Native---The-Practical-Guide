@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				places: state.places.concat({
-			            key: state.places.length, 
+			            key: Math.random(), 
 			            name: action.placeName,
 			            image: {
 			              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdlwIFIXM3b8gS_PLPG0raP33M_jTRFxxhpFP7YcLIF_BtWzeZ"
