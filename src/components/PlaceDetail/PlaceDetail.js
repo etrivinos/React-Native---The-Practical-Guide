@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Text, Button, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, Button, Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -27,7 +27,7 @@ const placeDetail = (props) => {
 						style={styles.deleteButton}
 						onPress={props.onItemDeleted} >
 							<TouchableOpacity>
-								<Icon name="ios-trash" size={30} color="red" />
+								<Icon name={Platform.OS === 'android' ? "md-trash" : "ios-trash"} size={30} color="red" />
 							</TouchableOpacity>
 					</View>
 
