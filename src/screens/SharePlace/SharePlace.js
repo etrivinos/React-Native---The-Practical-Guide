@@ -1,5 +1,16 @@
 import React, { Component } from  'react';
-import { View, Text, TextInput, Button, Image, StyleSheet, ScrollView } from  'react-native';
+
+import { 
+	View, 
+	Text, 
+	TextInput, 
+	Button, 
+	Image, 
+	StyleSheet, 
+	ScrollView,
+	KeyboardAvoidingView } from  'react-native';
+import ButtonWithBackground from '../../components/UI/ButtonWithBackground/ButtonWithBackground';
+
 import { connect } from 'react-redux';
 
 import PlaceInput from  '../../components/PlaceInput/PlaceInput';
@@ -10,13 +21,25 @@ import { addPlace } from  '../../store/actions/index';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import MainText from '../../components/UI/MainText/MainText';
 
+import validate from '../../utility/validation';
+
 class SharePlaceScreen extends Component {
 	static navigatorStyle = {
 		navBarButtonColor: "orange"
 	}
 
 	state = {
-		placeName: ''
+		placeName: '',
+		controls: {
+			placeName: {
+				value: '',
+				valid: false,
+				touched: false,
+				validationRules: {
+					isNotEmpty: true
+				}
+			}			
+		}
 	}
 
 	constructor(props) {
@@ -41,9 +64,24 @@ class SharePlaceScreen extends Component {
 		}
 	}
 
-	placeNameChangeHandler = (val) => {
-		this.setState({
-			placeName: val
+	placeNameChangeHandler = (val, key) => {
+		console.log(this.state.controls);
+
+		let isValid = validate(val, this.state.controls[key].validationRules);
+
+		this.setState(prevState => {
+			return {
+				placeName: val,
+				controls: {
+					...prevState.controls,
+					[key]: {
+						...prevState.controls[key],
+						value: val,
+						valid: isValid,
+						touched: true
+					}
+				}
+			}
 		});
 	}
 
@@ -56,14 +94,22 @@ class SharePlaceScreen extends Component {
 					<PickImage />
 					<PickPlace />
 
-					<PlaceInput 
-						placeName={this.state.placeName} 
+					<KeyboardAvoidingView style={{flex: 1, width: "100%"}} behavior="padding">
+						<PlaceInput 
+							style={{width: "100%"}}
+							name='placeName'
+							placeName={this.state.placeName} 
 							onChangeText={this.placeNameChangeHandler} />
 
-					<View style={styles.button}>
-						<Button title="Share the Place!"
-							onPress={this.addPlaceName} />
-					</View>
+						<View style={[styles.button]}>
+							<ButtonWithBackground 
+								onPress={this.addPlaceName}
+								color="#29AAF4"
+								disabled={!this.state.controls.placeName.valid}>
+									Share the Place!									
+							</ButtonWithBackground>
+						</View>
+					</KeyboardAvoidingView>
 				</View>
 			</ScrollView>
 		);
@@ -88,7 +134,13 @@ const styles = StyleSheet.create({
 	previewImage: {
 		width: "100%",
 		height: "100%"
-	}
+	},
+
+	disabled: {
+    backgroundColor: "#EEE",
+    borderColor: "#AAA",
+    color: '#AAA'
+  }
 });
 
 const mapStateToProps = state => {
