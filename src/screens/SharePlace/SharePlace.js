@@ -38,7 +38,11 @@ class SharePlaceScreen extends Component {
 				validationRules: {
 					isNotEmpty: true
 				}
-			}			
+			},
+			location: {
+				value: null,
+				valid: false
+			}		
 		}
 	}
 
@@ -59,14 +63,10 @@ class SharePlaceScreen extends Component {
 	}
 	
 	addPlaceName = () => {
-		if(this.state.placeName.trim() !== '') {
-			this.props.onAddPlace(this.state.placeName);
-		}
+		this.props.onAddPlace(this.state.placeName, this.state.controls.location.value);
 	}
 
 	placeNameChangeHandler = (val, key) => {
-		console.log(this.state.controls);
-
 		let isValid = validate(val, this.state.controls[key].validationRules);
 
 		this.setState(prevState => {
@@ -85,6 +85,21 @@ class SharePlaceScreen extends Component {
 		});
 	}
 
+	locationPickHandler = (location) => {
+		this.setState(prevState => {
+			return {
+				...prevState,
+				controls: {
+					...prevState.controls,
+					location: {
+						value: location,
+						valid: true
+					}
+				}
+			}
+		});
+	}
+
 	render() {
 		return (
 			<ScrollView >
@@ -92,20 +107,20 @@ class SharePlaceScreen extends Component {
 					<MainText><HeadingText>Share a Place with us!</HeadingText></MainText>
 
 					<PickImage />
-					<PickPlace />
+					<PickPlace onLocationPick={this.locationPickHandler} />
 
 					<KeyboardAvoidingView style={{flex: 1, width: "100%"}} behavior="padding">
 						<PlaceInput 
 							style={{width: "100%"}}
 							name='placeName'
 							placeName={this.state.placeName} 
-							onChangeText={this.placeNameChangeHandler} />
+							onChangeText={(val) => this.placeNameChangeHandler(val, 'placeName')} />
 
 						<View style={[styles.button]}>
 							<ButtonWithBackground 
 								onPress={this.addPlaceName}
 								color="#29AAF4"
-								disabled={!this.state.controls.placeName.valid}>
+								disabled={!this.state.controls.placeName.valid || !this.state.controls.location.valid}>
 									Share the Place!									
 							</ButtonWithBackground>
 						</View>
@@ -149,7 +164,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAddPlace: (placeName) => dispatch(addPlace(placeName))
+		onAddPlace: (placeName, location) => dispatch(addPlace(placeName, location))
 	}
 }
 

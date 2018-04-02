@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { deletePlace } from '../../store/actions/index';
 
+import MapView from 'react-native-maps';
+
 class PlaceDetailScreen extends Component {
 
 	state = {
@@ -36,6 +38,14 @@ class PlaceDetailScreen extends Component {
 	}
 
 	render() {
+		const focusedLocation = {
+			latitude: 			this.props.selectedPlace.location.latitude,
+      longitude: 			this.props.selectedPlace.location.longitude,
+      latitudeDelta: 	0.0122,
+      longitudeDelta: Dimensions.get('window').width /
+    									Dimensions.get('window').height * 0.0122
+		};
+
 		return (
 			<View style={[
 				styles.container, 
@@ -45,6 +55,13 @@ class PlaceDetailScreen extends Component {
 			]}>
 				<View style={styles.subcontainer}>
 					<Image source={this.props.selectedPlace.image}  style={styles.placeImage} />
+				</View>
+
+				<View style={styles.subcontainer}>
+					<MapView style={styles.map}
+				    initialRegion={focusedLocation}>
+				    	<MapView.Marker coordinate={focusedLocation} />
+			    </MapView>
 				</View>
 
 				<View style={styles.subcontainer}>
@@ -89,7 +106,11 @@ const styles = StyleSheet.create({
   subcontainer: {
   	flex: 1,
   	alignItems: "center"
-  }
+  },
+  map: {
+		width: "100%",
+		height: 150
+	}
 });
 
 const mapDispatchToProps = dispatch => {
