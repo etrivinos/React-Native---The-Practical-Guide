@@ -36,6 +36,27 @@ class PickPlace extends React.Component {
 		});
 	}
 
+	getLocationHandler = () => {
+		navigator.geolocation.getCurrentPosition(
+			(pos) => {
+				const coordsEvent = {
+					nativeEvent: {
+						coordinate: {
+							latitude: 	pos.coords.latitude,
+							longitude: 	pos.coords.longitude
+						}
+					}
+				};
+
+				this.pickLocationHandler(coordsEvent);
+			},
+			(error) => {
+				console.error(error);
+				alert('Fetching the Position failed, please pick one manually!');
+			}
+		);
+	}
+
 	render() {
 		let marker = null;
 
@@ -55,7 +76,7 @@ class PickPlace extends React.Component {
 			    </MapView>
 
 					<View style={styles.button}>
-						<Button title="Locate me!" onPress={() => alert('Pick a Location') } />
+						<Button title="Locate me!" onPress={this.getLocationHandler} />
 					</View>
 				</View>
 			)
