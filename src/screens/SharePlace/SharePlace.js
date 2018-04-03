@@ -42,7 +42,11 @@ class SharePlaceScreen extends Component {
 			location: {
 				value: null,
 				valid: false
-			}		
+			},
+			image: {
+				value: null,
+				valid: false
+			}
 		}
 	}
 
@@ -63,7 +67,7 @@ class SharePlaceScreen extends Component {
 	}
 	
 	addPlaceName = () => {
-		this.props.onAddPlace(this.state.placeName, this.state.controls.location.value);
+		this.props.onAddPlace(this.state.placeName, this.state.controls.location.value, this.state.controls.image.value);
 	}
 
 	placeNameChangeHandler = (val, key) => {
@@ -100,13 +104,28 @@ class SharePlaceScreen extends Component {
 		});
 	}
 
+	imagePickHandler = (uri) => {
+		this.setState(prevState => {
+			return {
+				...prevState,
+				controls: {
+					...prevState.controls,
+					image: {
+						value: uri,
+						valid: true
+					}
+				}
+			}
+		});
+	}
+
 	render() {
 		return (
 			<ScrollView >
 				<View style={styles.container}>
 					<MainText><HeadingText>Share a Place with us!</HeadingText></MainText>
 
-					<PickImage />
+					<PickImage onImagePick={this.imagePickHandler}/>
 					<PickPlace onLocationPick={this.locationPickHandler} />
 
 					<KeyboardAvoidingView style={{flex: 1, width: "100%"}} behavior="padding">
@@ -120,7 +139,9 @@ class SharePlaceScreen extends Component {
 							<ButtonWithBackground 
 								onPress={this.addPlaceName}
 								color="#29AAF4"
-								disabled={!this.state.controls.placeName.valid || !this.state.controls.location.valid}>
+								disabled={!this.state.controls.placeName.valid || 
+													!this.state.controls.location.valid ||
+													!this.state.controls.image.valid}>
 									Share the Place!									
 							</ButtonWithBackground>
 						</View>
@@ -164,7 +185,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAddPlace: (placeName, location) => dispatch(addPlace(placeName, location))
+		onAddPlace: (placeName, location, image) => dispatch(addPlace(placeName, location, image))
 	}
 }
 

@@ -23,7 +23,9 @@ class PickImage extends React.Component {
 				else {
 					this.setState({
 						pickedImage: { uri: res.uri }
-					})
+					});
+
+					this.props.onImagePick(res.uri);
 				}
 			});
 	}
