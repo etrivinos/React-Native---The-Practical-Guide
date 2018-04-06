@@ -11,7 +11,8 @@ class PickImage extends React.Component {
 
 	pickImageHandler = () => {
 		ImagePicker.showImagePicker({
-			title: 'Pick an image'
+				title: 'Pick an image',
+				// noData: true
 			},
 			res => {
 				if(res.didCancel) {
@@ -25,7 +26,7 @@ class PickImage extends React.Component {
 						pickedImage: { uri: res.uri }
 					});
 
-					this.props.onImagePick(res.uri);
+					this.props.onImagePick({ uri: res.uri, base64: res.data});
 				}
 			});
 	}

@@ -14,7 +14,7 @@ const reducer = (state = initialState, action) => {
 			            name: action.placeName,
 			            image: {
 			              // uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdlwIFIXM3b8gS_PLPG0raP33M_jTRFxxhpFP7YcLIF_BtWzeZ"
-			              uri: action.image
+			              uri: action.image.uri
 			            },
 			            location: action.location
 			          }),
